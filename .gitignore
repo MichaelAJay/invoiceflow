@@ -1,3 +1,6 @@
 internal/
 *.env
 venv/
+app/__pycache__/
+/*.pdf
+/*.html
