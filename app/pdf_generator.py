@@ -1,22 +1,17 @@
-from .models import InvoiceData
 from weasyprint import HTML
 from jinja2 import Environment, FileSystemLoader
+from datetime import datetime
 
-TEMPLATE_FILE = 'templates/invoice_template.html' # Expecting this to not work
-OUTPUT_HTML_FILE = 'rendered_template.html'
-OUTPUT_PDF_FILE = 'output.pdf'
-
-def render_template(data: InvoiceData) -> str:
+def render_template(data: dict) -> str:
     try:
-        # Import an HTML template
         loader = FileSystemLoader('templates')
         env = Environment(loader=loader)
-        template = env.get_template('invoice_template.html')
-        return template.render(**data.model_dump())
+        template = env.get_template('invoice_template_h4h.html')
+        return template.render(**data)
     except Exception as e:
         print(f"Error rendering template: {e}")
         return ""
-    
+
 def generate_pdf(html: str) -> bytes:
     try:
         return HTML(string=html).write_pdf()
@@ -24,19 +19,11 @@ def generate_pdf(html: str) -> bytes:
         print(f"Error generating PDF:{e}")
         return b""
 
-def generate_pdf_invoice(data: InvoiceData) -> bytes:
+def generate_pdf_invoice(data: dict) -> bytes:
+    invoice_number = data.get('invoice_number', f'invoice_{datetime.now().strftime("%Y%m%d%H%M%S")}')
+    outputFileName = f'{invoice_number}.pdf'
     html = render_template(data)
-
-    # Write the html
-    with open(OUTPUT_HTML_FILE, 'w') as html_file:
-        html_file.write(html)
-
-    # Use WeasyPrint to generate the PDF
     pdf = generate_pdf(html)
-
-    # Write the pdf make sure 'wb'
-    with open(OUTPUT_PDF_FILE, 'wb') as pdf_file:
+    with open(outputFileName, 'wb') as pdf_file:
         pdf_file.write(pdf)
-
-    # Return the pdf
     return pdf
