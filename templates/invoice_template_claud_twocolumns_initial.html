@@ -46,21 +46,23 @@
         <div class="column">
             <h1>Invoice</h1>
             <p>
-                3690 Atlanta Hwy #107<br>
-                Athens, GA 30606<br>
-                (706) 613-8800
-            </p>
-            <p>
                 Invoice Date: {{ invoice_date }}<br>
                 Order Date: {{ order_date }}
+            </p>
+            <p>
+                Invoice Prepared for:<br>
+                {{ customer_name }}<br>
+                Company: {{ customer_company }}
             </p>
         </div>
         <div class="column">
             <img class="logo" src="{{ logo_path }}" alt="Company Logo">
             <p>
-                Invoice Prepared for: {{ customer_name }}<br>
-                Company: {{ customer_company }}
+                3690 Atlanta Hwy #107<br>
+                Athens, GA 30606<br>
+                (706) 613-8800
             </p>
+
             <p>
                 Invoice #: {{ invoice_number }}<br>
                 Due date: {{ due_date }}
