@@ -76,19 +76,11 @@
         {% for item in invoice_items %}
         <tr>
             <td>{{ item.name }}</td>
-            <td>{{ item.quantity }}</td>
+            <td>{{ item.quantity if item.quantity != 0 else '' }}</td>
             <td>{{ item.price }}</td>
         </tr>
         {% endfor %}
     </table>
-    <p>
-        Subtotal: {{ subtotal }}<br>
-        Tax: {{ tax }}<br>
-        Delivery Fee: {{ delivery_fee }}<br>
-        Tip: {{ tip }}<br>
-        Discounts, Fees, Etc: {{ discounts_fees }}<br>
-        Total: {{ total }}
-    </p>
 </body>
 
 </html>
